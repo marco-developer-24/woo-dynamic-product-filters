@@ -1,0 +1,564 @@
+        /**
+        * Estilos del frontend PolyCor Dynamic Filters
+        *
+        * @package PolyCor_Dynamic_Filters
+        * @since 1.0.0
+        */
+
+        /* Filtros Activos */
+        .polycor-active-filters {
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: 1px solid #277FF2;
+            border-radius: 12px;
+        }
+
+        .polycor-active-filters-title {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #040424;
+        }
+
+        .polycor-active-filters ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        /* Contenedor principal */
+        .polycor-filters-wrapper {
+            /* Eliminamos el margen superior e inferior para que se ajuste al contenedor padre (el widget del tema) */
+            margin: 0;
+        }
+
+        .polycor-filters-notice {
+            padding: 15px;
+            background: #F4F5F7; /* --e-global-color-accent */
+            border: 1px solid #CED4DA; /* --e-global-color-c9a7983 */
+            border-radius: 4px;
+            color: #040424; /* --e-global-color-primary */
+        }
+
+        /* Formulario de filtros */
+        .polycor-filters-form {
+            background: transparent;
+            padding: 20px;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        /* Layout vertical (por defecto) */
+        .polycor-filters-container.polycor-layout-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Layout horizontal */
+        .polycor-filters-container.polycor-layout-horizontal {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        /* Grupo de filtros */
+        .polycor-filter-group {
+            padding: 15px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .polycor-filter-group::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .polycor-filter-title {
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #040424; /* --e-global-color-primary */
+            border-bottom: 1px solid #CED4DA; /* --e-global-color-c9a7983 */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s ease;
+        }
+
+        .polycor-filter-title:hover {
+            color: #277FF2; /* --e-global-color-05b0a90 */
+        }
+
+        .polycor-toggle-icon {
+            display: inline-block;
+            border: solid #040424; /* --e-global-color-primary */
+            border-width: 0 2px 2px 0;
+            padding: 3px;
+            transform: rotate(45deg);
+            transition: transform 0.3s ease;
+        }
+
+        /* Opciones de filtro */
+        .polycor-filter-options {
+            display: none; /* Ocultar por defecto */
+            flex-direction: column;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 8px;
+        }
+
+        /* Mostrar opciones cuando el grupo está activo */
+        .polycor-filter-group.active .polycor-filter-options {
+            display: flex;
+        }
+
+        .polycor-filter-group.active .polycor-toggle-icon {
+            transform: rotate(-135deg);
+        }
+
+        /* Estilo: Checkboxes */
+        .polycor-filter-options.polycor-style-checkboxes {
+            flex-direction: column;
+        }
+
+        .polycor-filter-options .polycor-filter-item {
+            list-style: none;
+            padding: 0;
+        }
+
+        .polycor-filter-options.polycor-style-checkboxes .polycor-filter-item {
+            list-style-type: none;
+        }
+
+        .polycor-filter-options.polycor-style-checkboxes a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #040424; /* --e-global-color-primary */
+            padding: 5px 0;
+        }
+
+        .polycor-radio-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #CED4DA;
+            margin-right: 10px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .polycor-filter-options.polycor-style-checkboxes a::before {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            border: 1px solid #CED4DA;
+            border-radius: 3px;
+            background-color: #fff;
+            transition: all 0.2s ease;
+        }
+
+        .polycor-filter-options.polycor-style-checkboxes a:hover .polycor-radio-icon {
+            border-color: #040424;
+        }
+
+        .polycor-filter-options.polycor-style-checkboxes .polycor-filter-item.active a .polycor-radio-icon {
+            border-color: #040424;
+        }
+        .polycor-filter-options.polycor-style-checkboxes .polycor-filter-item.active a .polycor-radio-icon::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #040424;
+        }
+
+        .polycor-filter-options.polycor-style-checkboxes .polycor-filter-item.active a::before {
+            background-color: #040424; /* --e-global-color-primary */
+            border-color: #040424;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8l3 3 5-5'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* Estilo: Buttons */
+        .polycor-filter-options.polycor-style-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 8px;
+        }
+
+        .polycor-filter-options.polycor-style-buttons .polycor-filter-item {
+            margin: 0;
+        }
+
+        .polycor-filter-options.polycor-style-buttons a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #F4F5F7; /* --e-global-color-accent */
+            border: 1px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            text-decoration: none;
+            color: #040424; /* --e-global-color-primary */
+        }
+
+        .polycor-filter-options.polycor-style-buttons a:hover {
+            background: #e9ecef;
+            border-color: #277FF2; /* --e-global-color-05b0a90 */
+        }
+
+        .polycor-filter-options.polycor-style-buttons .polycor-filter-item.active a {
+            background: #040424; /* --e-global-color-primary */
+            border-color: #040424; /* --e-global-color-primary */
+            color: #fff;
+        }
+
+        /* Chip de filtro activo */
+        .polycor-active-filters ul > li.polycor-active-filter-chip {
+            /* --- REGLAS REFORZADAS Y SIMPLIFICADAS --- */
+            display: inline-flex;
+            width: auto; /* Anula el width: 100% del tema */
+            align-items: center;
+            padding: 0; /* El padding lo controlan las celdas internas */
+            margin: 0 !important; /* Anula el margen del tema */
+            background-color: #030323; /* BG */
+            border: 1px solid #030323;
+            border-radius: 50px; /* Borde de píldora, como en el ejemplo */
+            font-size: 13px;
+            color: #0ec3ec; /* letras color cyan */
+            overflow: hidden; /* CRÍTICO: asegura que todo quede dentro */
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .polycor-active-filters ul > li.polycor-active-filter-chip:hover {
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-color: #0ec3ec;
+        }
+
+        /* Celdas internas del chip (texto y acción) */
+        .polycor-active-filter-chip > .polycor-chip-cell {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .polycor-active-filter-chip > .polycor-chip-text {
+            padding: 7px 8px 7px 14px;
+            white-space: nowrap;
+        }
+        
+        /* Botón para remover filtro activo */
+        .polycor-active-filter-chip .polycor-remove-filter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 10px 7px 7px;
+            background: transparent;
+            color: #0ec3ec;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .polycor-active-filter-chip .polycor-remove-filter:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Efecto de brillo sutil */
+            color: #0ec3ec;
+        }
+
+        /* El ícono 'x' en sí */
+        .polycor-active-filter-chip .polycor-remove-icon {
+            line-height: 1; /* Asegura que la 'x' esté centrada verticalmente */
+            font-weight: bold;
+        }
+
+        /* Etiquetas de filtro */
+        .polycor-filter-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;    
+            color: #7A7A7A; /* --e-global-color-text */
+        }
+
+        .polycor-filter-count {
+            color: #7A7A7A; /* --e-global-color-text */
+            font-size: 12px;
+        }
+
+        /* Botones de acción */
+        .polycor-filters-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #CED4DA; /* --e-global-color-c9a7983 */
+        }
+
+        .polycor-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .polycor-btn-clear {
+            background: #040424;
+            color:#0ec3ec; /* --e-global-color-text */
+            border: 1px solid #0ec3ec; /* --e-global-color-c9a7983 */
+        }
+
+        .polycor-btn-clear:hover {
+            background: #0ec3ec; /* --e-global-color-accent */
+            border-color: #040424;
+            color: #040424; /* --e-global-color-primary */
+        }
+
+        /* Estilos para el estado de carga (loading) */
+        .products.loading,
+        .polycor-filters-wrapper.loading {
+            opacity: 0.5;
+            position: relative;
+            pointer-events: none; /* Evita clics mientras carga */
+        }
+
+        .products.loading::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            margin-top: -20px;
+            margin-left: -20px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #040424; /* --e-global-color-primary */
+            border-radius: 50%;
+            animation: polycor-spin 1s linear infinite;
+            z-index: 10;
+        }
+
+        /* Reutilizamos la animación de polycor-spin que ya tienes */
+
+
+
+        /* Loading */
+        .polycor-filters-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            text-align: center;    
+            color: #7A7A7A; /* --e-global-color-text */
+        }
+
+        .polycor-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #040424; /* --e-global-color-primary */
+            border-radius: 50%;
+            animation: polycor-spin 1s linear infinite;
+        }
+
+        @keyframes polycor-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Contenedor de resultados */
+        .polycor-results-container {
+            margin-top: 30px;
+        }
+
+        .polycor-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .polycor-no-products {
+            padding: 30px;
+            text-align: center;
+            background: #F4F5F7; /* --e-global-color-accent */
+            border: 1px solid #CED4DA; /* --e-global-color-c9a7983 */
+            border-radius: 8px;
+            color: #7A7A7A; /* --e-global-color-text */
+        }
+
+        /* Paginación */
+        .polycor-pagination {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .polycor-pagination .page-numbers {
+            display: inline-flex;
+            gap: 5px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .polycor-pagination .page-numbers li {
+            margin: 0;
+        }
+
+        .polycor-pagination .page-numbers a,
+        .polycor-pagination .page-numbers span {
+            display: inline-block;
+            padding: 8px 12px;    
+            background: #FFFFFF;
+            border: 1px solid #CED4DA; /* --e-global-color-c9a7983 */
+            border-radius: 4px;
+            color: #040424; /* --e-global-color-primary */
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .polycor-pagination .page-numbers a:hover {
+            background: #040424; /* --e-global-color-primary */
+            border-color: #040424;
+            color: #fff;
+        }
+
+        .polycor-pagination .page-numbers .current {
+            background: #040424; /* --e-global-color-primary */
+            border-color: #040424;
+            color: #fff;
+            cursor: default;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .polycor-filters-container.polycor-layout-horizontal {
+                grid-template-columns: 1fr;
+            }
+            
+            .polycor-filters-actions {
+                flex-direction: column;
+            }
+            
+            .polycor-products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .polycor-btn {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .polycor-filter-group {
+                padding: 15px;
+            }
+            
+            .polycor-filter-title {
+                font-size: 14px;
+            }
+            
+            .polycor-products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* -----------------------------------------------------------
+   CHIP – estilo final compatible con el HTML actual
+----------------------------------------------------------- */
+
+/* Contenedor del UL */
+.polycor-active-filters ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* CHIP */
+.polycor-active-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    background-color: #030323;
+    color: #0ec3ec;
+    border: 1px solid #0ec3ec;
+    border-radius: 50px;
+    overflow: hidden;
+    transition: .2s ease;
+    padding: 0; /* padding lo manejan las celdas */
+}
+
+/* Texto del chip */
+.polycor-chip-text {
+    padding: 7px 14px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Acción (botón X) */
+.polycor-chip-action {
+    display: flex;
+    align-items: center;
+}
+
+/* Link de remover */
+.polycor-remove-filter {
+    padding: 7px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: #0ec3ec;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+/* Ícono */
+.polycor-remove-icon {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* Hover chip */
+.polycor-active-filter-chip:hover {
+    background-color: #0ec3ec;
+    color: #030323;
+    border-color: #030323;
+    box-shadow: 0 2px 5px rgba(4,4,36,.4);
+    transform: translateY(-1px);
+}
+
+/* Hover X */
+.polycor-active-filter-chip:hover .polycor-remove-filter {
+    color: #030323;
+}

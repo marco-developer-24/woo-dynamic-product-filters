@@ -1,0 +1,277 @@
+/**
+ * Estilos del panel de administración PolyCor Dynamic Filters
+ *
+ * @package PolyCor_Dynamic_Filters
+ * @since 1.0.0
+ */
+
+/* Layout general */
+.polycor-admin-wrap {
+    max-width: 1200px;
+}
+
+.polycor-admin-section {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+/* Tabs */
+.polycor-tab-content {
+    margin-top: 20px;
+}
+
+/* Lista de atributos */
+.polycor-attribute-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.polycor-attribute-list li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: move;
+    transition: all 0.2s;
+}
+
+.polycor-attribute-list li:hover {
+    background: #e9ecef;
+    border-color: #2271b1;
+}
+
+.polycor-attribute-list li.ui-sortable-helper {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    opacity: 0.9;
+}
+
+.polycor-drag-handle {
+    margin-right: 10px;
+    color: #666;
+    cursor: grab;
+}
+
+.polycor-attr-name {
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.polycor-attr-slug {
+    color: #666;
+    font-size: 12px;
+}
+
+.polycor-delete-attr {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.polycor-delete-attr:hover {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.polycor-delete-attr .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Selector de atributos */
+.polycor-attributes-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.polycor-attr-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.polycor-attr-checkbox:hover {
+    border-color: #2271b1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.polycor-attr-checkbox input[type="checkbox"] {
+    margin: 0 10px 0 0;
+}
+
+.polycor-attr-checkbox input[type="checkbox"]:checked + .polycor-attr-label {
+    color: #2271b1;
+    font-weight: 600;
+}
+
+.polycor-attr-label small {
+    display: block;
+    color: #666;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+/* Nueva UI de selección */
+.polycor-attr-item {
+    transition: background 0.2s, transform 0.1s;
+}
+
+.polycor-attr-item:hover {
+    background: #f0f6fc !important;
+    transform: translateX(4px);
+}
+
+.polycor-selected-item {
+    animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.polycor-sortable-placeholder {
+    background: #e7f5ff;
+    border: 2px dashed #2271b1;
+    visibility: visible !important;
+    height: 50px !important;
+    margin-bottom: 5px;
+}
+
+.polycor-drag-handle {
+    cursor: grab;
+}
+
+.polycor-drag-handle:active {
+    cursor: grabbing;
+}
+
+.polycor-remove-attr {
+    color: #d63638;
+    border-color: #d63638;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.polycor-remove-attr:hover {
+    background: #d63638;
+    color: #fff;
+}
+
+.polycor-frequent-attr {
+    transition: all 0.2s;
+}
+
+.polycor-frequent-attr:hover {
+    background: #e7f5ff !important;
+    transform: scale(1.05);
+}
+
+/* Badge de conteo */
+.polycor-count-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #2271b1;
+    color: #fff;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Información de shortcode */
+.polycor-shortcode-info {
+    max-width: 800px;
+}
+
+.polycor-shortcode-info h3 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.polycor-code-block {
+    display: block;
+    padding: 15px;
+    background: #23282d;
+    color: #f1f1f1;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    margin: 10px 0;
+    overflow-x: auto;
+}
+
+.polycor-param-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.polycor-param-list li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background: #f8f9fa;
+    border-left: 3px solid #2271b1;
+}
+
+.polycor-param-list strong {
+    color: #2271b1;
+    font-family: monospace;
+}
+
+/* Mensajes de error/éxito */
+.notice.polycor-notice {
+    margin: 15px 0;
+}
+
+/* Tabla de mapeos */
+.polycor-admin-wrap .wp-list-table {
+    margin-top: 20px;
+}
+
+.polycor-admin-wrap .wp-list-table td {
+    vertical-align: middle;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+    .polycor-attributes-selector {
+        grid-template-columns: 1fr;
+    }
+    
+    .polycor-attribute-list li {
+        flex-wrap: wrap;
+    }
+    
+    .polycor-delete-attr {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+}
