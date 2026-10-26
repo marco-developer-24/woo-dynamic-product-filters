@@ -105,7 +105,11 @@ class PolyCor_Dynamic_Filters {
             if (strpos($key, 'filter_') !== 0) continue;
 
             $attr = str_replace('filter_', '', $key);
-            if (!in_array($attr, $allowed)) continue;
+            if (!in_array($attr, $allowed, true)) continue;
+
+            // Query parameters can be arrays (e.g. filter_color[]=red).
+            // Ignore malformed values before passing them to string functions.
+            if (!is_string($value)) continue;
 
             $terms = array_filter(
                 array_map('sanitize_title', explode(',', $value))
