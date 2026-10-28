@@ -44,7 +44,7 @@
 
 .polycor-attribute-list li:hover {
     background: #e9ecef;
-    border-color: #2271b1;
+    border-color: #3B82C4;
 }
 
 .polycor-attribute-list li.ui-sortable-helper {
@@ -110,7 +110,7 @@
 }
 
 .polycor-attr-checkbox:hover {
-    border-color: #2271b1;
+    border-color: #3B82C4;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
@@ -119,7 +119,7 @@
 }
 
 .polycor-attr-checkbox input[type="checkbox"]:checked + .polycor-attr-label {
-    color: #2271b1;
+    color: #3B82C4;
     font-weight: 600;
 }
 
@@ -157,7 +157,7 @@
 
 .polycor-sortable-placeholder {
     background: #e7f5ff;
-    border: 2px dashed #2271b1;
+    border: 2px dashed #3B82C4;
     visibility: visible !important;
     height: 50px !important;
     margin-bottom: 5px;
@@ -196,7 +196,7 @@
 .polycor-count-badge {
     display: inline-block;
     padding: 4px 10px;
-    background: #2271b1;
+    background: #3B82C4;
     color: #fff;
     border-radius: 12px;
     font-size: 12px;
@@ -237,11 +237,11 @@
     padding: 10px;
     margin-bottom: 5px;
     background: #f8f9fa;
-    border-left: 3px solid #2271b1;
+    border-left: 3px solid #3B82C4;
 }
 
 .polycor-param-list strong {
-    color: #2271b1;
+    color: #3B82C4;
     font-family: monospace;
 }
 
@@ -273,5 +273,102 @@
         margin-left: 0;
         margin-top: 10px;
         width: 100%;
+    }
+}
+
+/* MWS UI refinement: consistent surfaces, controls and focus states */
+.polycor-admin-wrap {
+    max-width: 1240px;
+    color: #0B1120;
+}
+
+.polycor-admin-section {
+    border-color: #dce3ec;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 3px 12px rgba(11, 17, 32, 0.04);
+}
+
+.polycor-admin-section h2,
+.polycor-admin-section h3 {
+    color: #0B1120;
+    letter-spacing: -0.01em;
+}
+
+.polycor-admin-wrap input[type="text"],
+.polycor-admin-wrap input[type="number"],
+.polycor-admin-wrap select,
+.polycor-admin-wrap textarea {
+    max-width: 100%;
+    border-color: #cbd5e1;
+    border-radius: 6px;
+}
+
+.polycor-admin-wrap input:focus,
+.polycor-admin-wrap select:focus,
+.polycor-admin-wrap textarea:focus {
+    border-color: #3B82C4;
+    box-shadow: 0 0 0 1px #3B82C4;
+    outline: 2px solid transparent;
+}
+
+.polycor-admin-wrap .button-primary {
+    border-color: #3B82C4;
+    border-radius: 6px;
+    background: #3B82C4;
+    transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.polycor-admin-wrap .button-primary:hover,
+.polycor-admin-wrap .button-primary:focus {
+    border-color: #286da9;
+    background: #286da9;
+}
+
+.polycor-admin-wrap .wp-list-table {
+    overflow: hidden;
+    border-color: #dce3ec;
+    border-radius: 8px;
+}
+
+.polycor-admin-wrap .wp-list-table thead th {
+    background: #f1f5f9;
+    color: #0B1120;
+    font-weight: 600;
+}
+
+.polycor-attribute-list li,
+.polycor-attr-checkbox {
+    border-color: #dce3ec;
+    border-radius: 7px;
+}
+
+.polycor-attribute-list li:hover,
+.polycor-attr-checkbox:hover {
+    border-color: #3B82C4;
+    background: #f4f8fc;
+}
+
+.polycor-count-badge {
+    border-radius: 6px;
+    background: #3B82C4;
+}
+
+.polycor-code-block {
+    border: 1px solid #334155;
+    border-radius: 8px;
+}
+
+.polycor-admin-wrap :focus-visible {
+    outline: 2px solid #4DA3FF;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .polycor-admin-wrap *,
+    .polycor-admin-wrap *::before,
+    .polycor-admin-wrap *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
     }
 }
