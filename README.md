@@ -4,6 +4,18 @@ A WordPress plugin for WooCommerce focused on dynamic product filtering and AJAX
 
 The goal is to make product discovery more responsive while keeping the filtering behavior tied to the store's actual catalog and configuration.
 
+![WordPress](https://img.shields.io/badge/WordPress-Plugin-21759B?logo=wordpress&logoColor=white)
+![WooCommerce](https://img.shields.io/badge/WooCommerce-Extension-96588A?logo=woocommerce&logoColor=white)
+
+## Contents
+
+- [Scope](#scope)
+- [Installation](#installation)
+- [Validation checklist](#validation-checklist)
+- [Development principles](#development-principles)
+- [Compatibility and support](#compatibility-and-support)
+- [License](#license)
+
 ## Scope
 
 - Dynamic product filtering for WooCommerce.
