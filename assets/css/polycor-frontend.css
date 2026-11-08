@@ -519,9 +519,26 @@
 
 /* Texto del chip */
 .polycor-chip-text {
+    min-width: 0;
+    max-width: 100%;
     padding: 7px 14px;
     font-size: 13px;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.polycor-active-filter-chip {
+    max-width: 100%;
+}
+
+.polycor-chip-action {
+    flex: 0 0 auto;
+}
+
+.polycor-remove-filter {
+    min-width: 36px;
+    min-height: 36px;
+    box-sizing: border-box;
 }
 
 /* Acción (botón X) */
