@@ -562,3 +562,26 @@
 .polycor-active-filter-chip:hover .polycor-remove-filter {
     color: #030323;
 }
+
+/* Accessibility refinement: keyboard focus and reduced motion */
+.polycor-filters-wrapper a:focus-visible,
+.polycor-filters-wrapper button:focus-visible,
+.polycor-filters-wrapper input:focus-visible,
+.polycor-filters-wrapper select:focus-visible,
+.polycor-filters-wrapper textarea:focus-visible {
+    outline: 2px solid #277FF2;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .polycor-filters-wrapper *,
+    .polycor-filters-wrapper *::before,
+    .polycor-filters-wrapper *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
