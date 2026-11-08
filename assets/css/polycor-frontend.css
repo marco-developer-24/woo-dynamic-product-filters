@@ -585,3 +585,23 @@
     }
 }
 
+/* Semantic filter accordion controls */
+.polycor-filter-heading {
+    margin: 0;
+}
+
+.polycor-filter-title {
+    width: 100%;
+    padding: 0 0 10px;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.polycor-filter-title:focus-visible {
+    outline: 2px solid #277FF2;
+    outline-offset: 4px;
+}
+
