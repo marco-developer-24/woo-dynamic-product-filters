@@ -98,8 +98,8 @@ class PolyCor_Filter_Renderer {
                 echo '<li class="polycor-active-filter-chip">';
                 echo '   <span class="polycor-chip-cell polycor-chip-text">'.esc_html($term->name).'</span>';
                 echo '   <span class="polycor-chip-cell polycor-chip-action">';
-                echo '       <a href="'.esc_url($remove_link).'" class="polycor-remove-filter">';
-                echo '           <span class="polycor-remove-icon">&times;</span>';
+                echo '       <a href="'.esc_url($remove_link).'" class="polycor-remove-filter" aria-label="'.esc_attr(sprintf(__('Remove filter: %s', 'polycor-dynamic-filters'), $term->name)).'">';
+                echo '           <span class="polycor-remove-icon" aria-hidden="true">&times;</span>';
                 echo '       </a>';
                 echo '   </span>';
                 echo '</li>';
