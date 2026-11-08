@@ -23,8 +23,12 @@
          */
         setupDropdowns: function() {
             $('body').on('click', '.polycor-filter-title', function() {
-                const $group = $(this).closest('.polycor-filter-group');
-                $group.toggleClass('active');
+                const $button = $(this);
+                const $group = $button.closest('.polycor-filter-group');
+                const isExpanded = $button.attr('aria-expanded') === 'true';
+
+                $button.attr('aria-expanded', String(!isExpanded));
+                $group.toggleClass('active', !isExpanded);
             });
         },
         
