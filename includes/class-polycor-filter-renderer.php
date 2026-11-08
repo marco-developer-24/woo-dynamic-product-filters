@@ -145,10 +145,16 @@ class PolyCor_Filter_Renderer {
 
             $label = $this->attribute_manager->get_attribute_label($attribute_slug);
 
-            echo '<div class="polycor-filter-group" data-attribute="'.esc_attr($attribute_slug).'">';
-            echo '<h4 class="polycor-filter-title">'.$label.'<span class="polycor-toggle-icon"></span></h4>';
+            $options_id = wp_unique_id('polycor-filter-options-');
 
-            echo '<ul class="polycor-filter-options polycor-style-'.esc_attr($style).'">';
+            echo '<div class="polycor-filter-group" data-attribute="'.esc_attr($attribute_slug).'">';
+            echo '<h4 class="polycor-filter-heading">';
+            echo '<button type="button" class="polycor-filter-title" aria-expanded="false" aria-controls="'.esc_attr($options_id).'">';
+            echo esc_html($label).'<span class="polycor-toggle-icon" aria-hidden="true"></span>';
+            echo '</button>';
+            echo '</h4>';
+
+            echo '<ul id="'.esc_attr($options_id).'" class="polycor-filter-options polycor-style-'.esc_attr($style).'">';
 
             foreach ($terms as $term):
 
