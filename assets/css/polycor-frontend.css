@@ -591,10 +591,16 @@
 }
 
 .polycor-filter-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     padding: 0 0 10px;
     border: 0;
+    border-bottom: 1px solid #CED4DA;
+    border-radius: 0;
     background: transparent;
+    color: inherit;
     font: inherit;
     text-align: left;
     cursor: pointer;
