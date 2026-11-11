@@ -29,7 +29,7 @@ The table stores category-to-attribute mappings, including category ID, attribut
 | `polycor_admin_notices` | Admin notice transient | Ephemeral state | Safe to replace only if all producers and consumers are updated together. |
 | `polycor_attr_{attribute}_cat_{category}` | Attribute-term count cache in `PolyCor_Attribute_Manager` | Ephemeral cache | Can be invalidated/rebuilt; changing the prefix may cause a temporary cold cache, not data loss. |
 
-The uninstall routine currently drops the mapping table, deletes options/transients, and calls `wp_cache_flush()`. This destructive behavior must be reviewed separately before publishing a broadly distributed plugin. Uninstall must not be used as a migration mechanism.
+The uninstall routine currently drops the mapping table, deletes options/transients, and calls `wp_cache_flush()`. The latter flushes the WordPress object cache globally; it is not scoped to this plugin. Both the table deletion and global cache flush deserve an explicit uninstall-policy review before publishing a broadly distributed plugin. Uninstall must not be used as a migration mechanism.
 
 ### 3. Shortcodes and widget identity
 
@@ -63,7 +63,7 @@ Additional frontend AJAX action names are declared in `PolyCor_Ajax_Handler`:
 
 The frontend handler checks nonce action `polycor_filter_nonce`.
 
-**Runtime caveat:** the main bootstrap includes the AJAX handler file, but the inspected initialization path does not instantiate `PolyCor_Ajax_Handler`. Therefore, the presence of these hook declarations in the class does not prove that the frontend AJAX endpoints are currently registered at runtime. Do not treat them as verified working endpoints without an integration test.
+**Runtime caveat:** the main bootstrap includes the AJAX handler file, but the inspected initialization path does not instantiate `PolyCor_Ajax_Handler`. Therefore, these frontend AJAX hooks are not registered by the current bootstrap. Separately, `assets/js/polycor-frontend.js` explicitly disables its AJAX filtering logic and uses page reloads for filtering. The class declarations alone do not establish a working frontend AJAX feature. Treat frontend AJAX as inactive unless a future implementation both instantiates the handler and reconnects a tested JavaScript caller.
 
 If action names are ever replaced, register both old and new actions for a transition period, validate authorization and nonces on both paths, and update the JavaScript callers in the same change.
 
@@ -91,12 +91,12 @@ These are not necessarily documented public APIs, but PHP has no package-private
 
 ### 7. Translation domain, files, and frontend selectors
 
-- Text domain: `polycor-filters` (also used by translation calls in PHP).
+- Main plugin header text domain: `polycor-filters`. The renderer also contains one translation call using `polycor-dynamic-filters` (`includes/class-polycor-filter-renderer.php`), which is inconsistent with the declared header domain and should be treated as a likely implementation typo, not as a second supported domain.
 - Main plugin file: `polycor-dynamic-filters.php`.
 - Asset filenames include `polycor-admin.css`, `polycor-frontend.css`, `polycor-chips.css`, `polycor-admin.js`, `polycor-frontend.js`, and `polycor-chips.js`.
 - CSS/HTML classes use the `polycor-` prefix, including filter and chip elements.
 
-The text domain, plugin main-file path, asset handles/paths, and CSS selectors may be relied on by language packs, caches, child themes, custom CSS, or deployment scripts. Treat them as compatibility-sensitive until their consumers are understood.
+The declared text domain, plugin main-file path, asset paths, and CSS selectors may be relied on by language packs, caches, child themes, custom CSS, or deployment scripts. Treat them as compatibility-sensitive until their consumers are understood. The inconsistent `polycor-dynamic-filters` translation call should be corrected separately; changing the declared text domain as a cosmetic rename would be a different and broader compatibility decision.
 
 ## Proposed migration policy
 
@@ -115,7 +115,7 @@ The text domain, plugin main-file path, asset handles/paths, and CSS selectors m
 - Confirm existing widget instances still render.
 - Confirm every registered shortcode still renders; separately investigate the undocumented `[polycor_filters]` discrepancy.
 - Verify admin AJAX actions, capability checks, nonce checks, and JavaScript callers.
-- Verify frontend AJAX only after confirming the handler is actually instantiated.
+- Treat frontend AJAX as inactive in the current implementation: verify handler registration and a JavaScript request path together before describing or restoring that feature.
 - Confirm existing page-builder content and custom CSS continue to work.
 - Test uninstall separately and explicitly confirm the expected data-retention policy.
 - Run PHP linting and WordPress/WooCommerce integration tests.
