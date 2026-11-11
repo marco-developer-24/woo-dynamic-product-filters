@@ -1,54 +1,54 @@
-# Woo Dynamic Product Filters
+# Dynamic Filters
 
-A WordPress plugin for WooCommerce focused on dynamic product filtering and AJAX-powered filter rendering.
+Dynamic Filters is a WordPress plugin that adds product filtering to WooCommerce stores.
 
-The goal is to make product discovery more responsive while keeping the filtering behavior tied to the store's actual catalog and configuration.
+It helps shoppers narrow a product catalog using the filters configured for the store, while keeping the experience connected to the store's existing products and taxonomy structure.
 
 ![WordPress](https://img.shields.io/badge/WordPress-Plugin-21759B?logo=wordpress&logoColor=white)
 ![WooCommerce](https://img.shields.io/badge/WooCommerce-Extension-96588A?logo=woocommerce&logoColor=white)
 
-## Contents
+## What it does
 
-- [Scope](#scope)
-- [Installation](#installation)
-- [Validation checklist](#validation-checklist)
-- [Development principles](#development-principles)
-- [Compatibility and support](#compatibility-and-support)
-- [License](#license)
+- Provides product filtering for WooCommerce catalogs.
+- Uses the store's configured filter mappings.
+- Updates the product results when shoppers apply filters.
 
-## Scope
+**Current behavior:** frontend filtering uses a page reload to display the matching results. AJAX-based frontend filtering is not currently active.
 
-- Dynamic product filtering for WooCommerce.
-- AJAX-powered rendering of filter results.
+## Requirements
 
-This README intentionally describes only the documented scope. Supported filter types, configuration options, hooks, and integration details should be documented once verified against the implementation.
+- WordPress
+- WooCommerce
+
+Use a development or staging environment to verify compatibility with your WordPress version, WooCommerce version, active theme, and other catalog extensions.
 
 ## Installation
 
 1. Download or clone this repository.
 2. Copy the plugin directory into `wp-content/plugins/`.
-3. Activate the plugin from the WordPress administration panel.
-4. Test the available filters on a development or staging site before using them in production.
+3. Activate **Dynamic Filters** from the WordPress administration panel.
+4. Configure the available filters in the plugin's administration screen.
+5. Test the filtering experience with your store's product catalog before deploying to production.
 
 ## Validation checklist
 
 Before deploying a change, verify:
 
 - [ ] The plugin activates without PHP errors.
-- [ ] Filters behave as expected with the store's product catalog.
-- [ ] AJAX requests complete successfully and return the expected results.
-- [ ] Empty results and unusual filter combinations are handled clearly.
+- [ ] The administration screen loads and displays the configured mappings.
+- [ ] Filters return the expected products for the store's catalog.
+- [ ] Empty results and unusual filter combinations are handled correctly.
 - [ ] The interface remains usable on mobile and with keyboard navigation.
 - [ ] The plugin works with the active theme and other catalog-related extensions.
 
 ## Development principles
 
-Keep changes focused and reviewable. Separate interface changes from filtering logic, and avoid claiming performance, security, or compatibility improvements without evidence.
+Keep changes focused and reviewable. Separate interface changes from filtering logic, preserve existing compatibility contracts, and avoid claiming performance, security, or compatibility improvements without evidence.
 
 ## Compatibility and support
 
-Compatibility depends on the WordPress, WooCommerce, theme, and extension versions used by the store. Validate integrations in a staging environment before deploying to production.
+Compatibility depends on the WordPress, WooCommerce, theme, and extension versions used by each store. Reproduce and validate integration issues in a staging environment before deploying changes to production.
 
 ## License
 
-Check the repository for an explicit license before reusing or redistributing this code.
+No explicit license file is currently included in this repository. Contact the repository owner before reusing or redistributing the code.
