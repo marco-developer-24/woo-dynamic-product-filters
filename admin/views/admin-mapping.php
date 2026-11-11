@@ -25,7 +25,7 @@ if ($notices) {
 ?>
 
 <div class="wrap polycor-admin-wrap">
-    <h1><?php _e('PolyCor Dynamic Filters - Mapeo de Filtros', 'polycor-filters'); ?></h1>
+    <h1><?php _e('Dynamic Filters - Mapeo de Filtros', 'polycor-filters'); ?></h1>
     
     <p class="description">
         <?php _e('Asocia atributos de WooCommerce con categorías de productos para mostrar filtros dinámicos en el front-end.', 'polycor-filters'); ?>

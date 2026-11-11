@@ -1,8 +1,7 @@
 <?php
 /**
- * Plugin Name: PolyCor Dynamic Filters
- * Plugin URI: https://polycor.com
- * Description: Sistema avanzado de filtros dinámicos por categoría para WooCommerce
+ * Plugin Name: Dynamic Filters
+ * Description: Advanced product filtering for WooCommerce
  * Version: 1.0.0
  * Author: Marco Rubino
  * Author URI: https://marcodeveloper.online
@@ -41,7 +40,7 @@ if (!function_exists('polycor_check_woocommerce')) {
         if (!class_exists('WooCommerce')) {
             add_action('admin_notices', function() {
                 echo '<div class="error"><p>';
-                echo '<strong>PolyCor Dynamic Filters</strong> requiere que WooCommerce esté instalado y activado.';
+                echo '<strong>Dynamic Filters</strong> requiere que WooCommerce esté instalado y activado.';
                 echo '</p></div>';
             });
             return false;
