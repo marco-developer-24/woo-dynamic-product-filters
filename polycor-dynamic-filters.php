@@ -99,19 +99,16 @@ function polycor_init() {
         return;
     }
 
-    // Inicializa núcleo
-    $core = PolyCor_Dynamic_Filters::get_instance();
-
-    // Mapper compartido
-    $mapper = new PolyCor_Category_Mapper(new PolyCor_DB());
+    // Construir las dependencias una sola vez y compartirlas entre componentes.
+    $db = new PolyCor_DB();
+    $mapper = new PolyCor_Category_Mapper($db);
     $attribute_manager = new PolyCor_Attribute_Manager();
 
-    // Renderer global único
-    global $polycor_renderer;
-    $polycor_renderer = new PolyCor_Filter_Renderer(
-        $mapper,
-        $attribute_manager
-    );
+    // Inicializar el núcleo con las dependencias compartidas.
+    PolyCor_Dynamic_Filters::get_instance($mapper, $attribute_manager);
+
+    // Registrar los shortcodes del renderer una sola vez.
+    new PolyCor_Filter_Renderer($mapper, $attribute_manager);
 
     // Admin page
     if (is_admin()) {
