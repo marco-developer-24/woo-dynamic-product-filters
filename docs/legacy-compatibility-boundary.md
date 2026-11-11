@@ -16,7 +16,7 @@ This is an initial source-code inventory, not proof that every identifier is use
 
 | Identifier | Location / use | Classification | Migration policy |
 | --- | --- | --- | --- |
-| `{$wpdb->prefix}polycor_cat_attrs` | `PolyCor_DB::__construct()`; created by `create_tables()`; removed by uninstall routine | **Critical persistent data** | Keep the existing table name during ordinary upgrades. A future rename requires an explicit copy/migrate/verify plan and a rollback path. Never drop the old table as part of a branding-only change. |
+| `<wp_prefix>polycor_cat_attrs` | `PolyCor_DB::__construct()`; created by `create_tables()`; removed by uninstall routine | **Critical persistent data** | Keep the existing table name during ordinary upgrades. A future rename requires an explicit copy/migrate/verify plan and a rollback path. Never drop the old table as part of a branding-only change. |
 
 The table stores category-to-attribute mappings, including category ID, attribute ID, attribute slug, display order, and active state. Its rows are user configuration, not disposable cache.
 
