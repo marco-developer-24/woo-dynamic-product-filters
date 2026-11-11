@@ -108,7 +108,9 @@ function polycor_init() {
     PolyCor_Dynamic_Filters::get_instance($mapper, $attribute_manager);
 
     // Registrar los shortcodes del renderer una sola vez.
-    new PolyCor_Filter_Renderer($mapper, $attribute_manager);
+    // Se conserva el global por compatibilidad con integraciones existentes.
+    global $polycor_renderer;
+    $polycor_renderer = new PolyCor_Filter_Renderer($mapper, $attribute_manager);
 
     // Admin page
     if (is_admin()) {
