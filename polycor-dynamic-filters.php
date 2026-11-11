@@ -4,8 +4,8 @@
  * Plugin URI: https://polycor.com
  * Description: Sistema avanzado de filtros dinámicos por categoría para WooCommerce
  * Version: 1.0.0
- * Author: PolyCor Development Team
- * Author URI: https://polycor.com
+ * Author: Marco Rubino
+ * Author URI: https://marcodeveloper.online
  * Text Domain: polycor-filters
  * Domain Path: /languages
  * Requires at least: 6.0
