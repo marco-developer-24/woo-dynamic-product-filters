@@ -70,10 +70,6 @@ function polycor_load_files() {
     }
 }
 
-add_action('widgets_init', function() {
-    register_widget('PolyCor_Filters_Widget');
-});
-
 
 /**
  * Declarar compatibilidad con WooCommerce HPOS
@@ -106,6 +102,11 @@ function polycor_init() {
 
     // Inicializar el núcleo con las dependencias compartidas.
     PolyCor_Dynamic_Filters::get_instance($mapper, $attribute_manager);
+
+    // Registrar el widget con el mapper compartido cuando WordPress inicialice widgets.
+    add_action('widgets_init', function() use ($mapper) {
+        register_widget(new PolyCor_Filters_Widget($mapper));
+    });
 
     // Registrar los shortcodes del renderer una sola vez.
     // Se conserva el global por compatibilidad con integraciones existentes.
