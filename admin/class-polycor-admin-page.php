@@ -30,7 +30,7 @@ class PolyCor_Admin_Page {
         add_submenu_page(
             'woocommerce',
             __('Dynamic Filters', 'polycor-filters'),
-            __('PolyCor Filters', 'polycor-filters'),
+            __('Dynamic Filters', 'polycor-filters'),
             'manage_woocommerce',
             'polycor-filters',
             array($this, 'render_admin_page')
