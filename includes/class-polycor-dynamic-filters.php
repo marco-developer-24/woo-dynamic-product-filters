@@ -20,25 +20,25 @@ class PolyCor_Dynamic_Filters {
     /** 
      * Singleton 
      */
-    public static function get_instance() {
+    public static function get_instance($mapper = null, $attr_manager = null) {
 
         if (self::$instance === null) {
 
-            // Dependencias mínimas
-            $db           = new PolyCor_DB();
-            $mapper       = new PolyCor_Category_Mapper($db);
-            $attr_manager = new PolyCor_Attribute_Manager();
+            // Permitir que el bootstrap comparta las dependencias con los demás componentes.
+            if ($mapper === null) {
+                $db = new PolyCor_DB();
+                $mapper = new PolyCor_Category_Mapper($db);
+            }
 
-            // Instancia base
+            if ($attr_manager === null) {
+                $attr_manager = new PolyCor_Attribute_Manager();
+            }
+
             self::$instance = new self($mapper, $attr_manager);
 
-            // Renderer separado (solo renderiza)
-            new PolyCor_Filter_Renderer($mapper, $attr_manager);
-
-            // Cargar CSS/JS
+            // Registrar los recursos del núcleo una sola vez.
             add_action('wp_enqueue_scripts', [self::$instance, 'enqueue_assets'], 20);
             add_action('admin_enqueue_scripts', [self::$instance, 'enqueue_admin_assets']);
-
         }
 
         return self::$instance;
