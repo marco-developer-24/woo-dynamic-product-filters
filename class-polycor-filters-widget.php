@@ -10,7 +10,11 @@ if (!defined('ABSPATH')) exit;
 
 class PolyCor_Filters_Widget extends WP_Widget {
 
-    public function __construct() {
+    /** @var PolyCor_Category_Mapper|null */
+    private $category_mapper;
+
+    public function __construct($category_mapper = null) {
+        $this->category_mapper = $category_mapper;
         parent::__construct(
             'polycor_filters_widget',
             __('PolyCor Dynamic Filters', 'polycor-filters'),
@@ -39,9 +43,13 @@ class PolyCor_Filters_Widget extends WP_Widget {
         }
 
         /** -------------------------------------------------------
-         * 2. Instanciamos el mapper DIRECTO (no depende del core)
+         * 2. Usar el mapper compartido cuando lo inyecta el bootstrap.
+         *    Mantener fallback para instanciaciones sin argumentos.
          * ------------------------------------------------------ */
-        $mapper = new PolyCor_Category_Mapper(new PolyCor_DB());
+        $mapper = $this->category_mapper;
+        if (!$mapper instanceof PolyCor_Category_Mapper) {
+            $mapper = new PolyCor_Category_Mapper(new PolyCor_DB());
+        }
 
         // Si la categoría NO tiene atributos mapeados → no mostrar nada
         if (!$mapper->category_has_attributes($cat_id)) {
