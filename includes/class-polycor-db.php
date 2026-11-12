@@ -62,6 +62,81 @@ class PolyCor_DB {
     }
     
     /**
+     * Reemplazar todos los mappings de una categoría de forma atómica.
+     *
+     * Requiere InnoDB para garantizar rollback ante fallos de inserción.
+     *
+     * @param int   $category_id ID de categoría.
+     * @param array $mappings    Filas normalizadas para insertar.
+     * @return bool
+     */
+    public function replace_mappings_for_category($category_id, $mappings) {
+        $category_id = absint($category_id);
+
+        if (!$category_id || !is_array($mappings)) {
+            return false;
+        }
+
+        // No iniciar una operación destructiva si la tabla no admite transacciones.
+        $table_status = $this->wpdb->get_row(
+            $this->wpdb->prepare(
+                "SHOW TABLE STATUS WHERE Name = %s",
+                $this->table_name
+            ),
+            ARRAY_A
+        );
+
+        if (
+            !is_array($table_status) ||
+            empty($table_status['Engine']) ||
+            strtolower($table_status['Engine']) !== 'innodb'
+        ) {
+            return false;
+        }
+
+        if ($this->wpdb->query('START TRANSACTION') === false) {
+            return false;
+        }
+
+        $deleted = $this->wpdb->delete(
+            $this->table_name,
+            array('category_id' => $category_id),
+            array('%d')
+        );
+
+        if ($deleted === false) {
+            $this->wpdb->query('ROLLBACK');
+            return false;
+        }
+
+        foreach ($mappings as $mapping) {
+            $result = $this->wpdb->insert(
+                $this->table_name,
+                array(
+                    'category_id'    => $category_id,
+                    'attribute_id'   => absint($mapping['attribute_id'] ?? 0),
+                    'attribute_slug' => sanitize_title($mapping['attribute_slug'] ?? ''),
+                    'display_order'  => absint($mapping['display_order'] ?? 0),
+                    'is_active'      => 1,
+                ),
+                array('%d', '%d', '%s', '%d', '%d')
+            );
+
+            if ($result === false) {
+                $this->wpdb->query('ROLLBACK');
+                return false;
+            }
+        }
+
+        if ($this->wpdb->query('COMMIT') === false) {
+            $this->wpdb->query('ROLLBACK');
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Obtener nombre de la tabla
      *
      * @return string
