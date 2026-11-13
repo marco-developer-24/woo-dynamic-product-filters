@@ -142,60 +142,63 @@
          * Configurar la selección de atributos
          */
         setupAttributeSelection: function() {
-            // Click en atributo disponible para seleccionarlo
             $(document).on('click', '.polycor-attr-item', function() {
-                const slug = $(this).data('attr-slug');
-                const name = $(this).find('div:first').text();
+                const slug = $(this).attr('data-attr-slug');
+                const name = $(this).find('.polycor-attr-name').text() || $(this).text().trim();
                 PolycorAdmin.addSelectedAttribute(slug, name);
             });
         },
+
         
-        /**
-         * Agregar atributo seleccionado
-         */
         addSelectedAttribute: function(slug, name) {
-            // Verificar si ya está seleccionado
-            if ($('#polycor-selected-list').find('.polycor-selected-item[data-slug="' + slug + '"]').length > 0) {
+            if (!slug || $('#polycor-selected-list .polycor-selected-item').filter(function() {
+                return $(this).attr('data-slug') === slug;
+            }).length > 0) {
                 return;
             }
-            
-            // Ocultar mensaje vacío
+
             $('.polycor-empty-message').hide();
-            
-            // Crear item
-            const $item = $(
-                '<div class="polycor-selected-item" data-slug="' + slug + '" ' +
-                'style="padding: 8px 10px; margin-bottom: 5px; background: #fff; ' +
-                'border: 1px solid #ddd; border-radius: 4px; display: flex; ' +
-                'align-items: center; gap: 10px;">' +
-                    '<span class="polycor-drag-handle dashicons dashicons-menu" style="color: #999;"></span>' +
-                    '<span style="flex: 1; font-weight: 600;">' + name + '</span>' +
-                    '<button type="button" class="polycor-remove-attr button button-small" style="padding: 2px 8px;">&times;</button>' +
-                '</div>'
-            );
-            
+
+            const $item = $('<div>', {
+                'class': 'polycor-selected-item'
+            }).attr('data-slug', slug);
+
+            $('<span>', {
+                'class': 'polycor-drag-handle dashicons dashicons-menu',
+                'aria-hidden': 'true'
+            }).appendTo($item);
+
+            $('<span>', {
+                'class': 'polycor-selected-name'
+            }).text(name).appendTo($item);
+
+            $('<button>', {
+                type: 'button',
+                'class': 'button button-small polycor-remove-attr',
+                'aria-label': 'Quitar ' + name,
+                text: '×'
+            }).appendTo($item);
+
             $('#polycor-selected-list').append($item);
-            
             this.updateHiddenInputs();
             this.updateSelectedCount();
         },
+
         
-        /**
-         * Actualizar inputs hidden
-         */
         updateHiddenInputs: function() {
             const $container = $('#polycor-hidden-inputs');
             $container.empty();
-            
+
             $('#polycor-selected-list .polycor-selected-item').each(function() {
-                const slug = $(this).data('slug');
-                $container.append('<input type="hidden" name="attributes[]" value="' + slug + '">');
+                const slug = $(this).attr('data-slug');
+                $('<input>', {
+                    type: 'hidden',
+                    name: 'attributes[]'
+                }).val(slug).appendTo($container);
             });
         },
+
         
-        /**
-         * Actualizar contador
-         */
         updateSelectedCount: function() {
             const count = $('#polycor-selected-list .polycor-selected-item').length;
             $('#polycor-selected-count').text('(' + count + ')');
@@ -222,78 +225,95 @@
          * ============================================================ */
         setupCategoryPreview: function() {
             const self = this;
-            
-            $('#polycor-category-preview').on('change', function() {
+
+            $('#category_id').on('change', function() {
                 const categoryId = $(this).val();
-                
+
                 if (!categoryId) {
-                    $('#polycor-frequent-attrs-list').hide();
+                    $('#polycor-frequent-attrs-list').prop('hidden', true);
                     return;
                 }
-                
-                // Sincronizar con el select principal
-                $('#category_id').val(categoryId);
-                
+
                 self.loadFrequentAttributes(categoryId);
             });
         },
+
         
         loadFrequentAttributes: function(categoryId) {
-            const $container    = $('#polycor-frequent-attrs-list .polycor-frequent-items');
-            const $listWrapper  = $('#polycor-frequent-attrs-list');
-            
-            if ($container.length === 0) return;
-            
-            $container.html('<span class="spinner is-active" style="float:none; margin: 0 5px 0 0;"></span>Cargando...');
-            $listWrapper.show();
-            
+            const $container = $('#polycor-frequent-attrs-list .polycor-frequent-items');
+            const $wrapper = $('#polycor-frequent-attrs-list');
+
+            if (!$container.length) return;
+
+            $container.empty().append(
+                $('<p>', { 'class': 'description', text: 'Cargando...' })
+            );
+            $wrapper.prop('hidden', false);
+
             $.ajax({
-                url:  polycorAdminData.ajaxUrl,
+                url: polycorAdminData.ajaxUrl,
                 type: 'POST',
                 data: {
-                    action:      'polycor_get_frequent_attributes',
-                    nonce:       polycorAdminData.nonce,
+                    action: 'polycor_get_frequent_attributes',
+                    nonce: polycorAdminData.nonce,
                     category_id: categoryId
                 },
                 success: function(response) {
+                    $container.empty();
+
                     if (!response || !response.success || !response.data) {
-                        $container.html('<p class="description">Error al cargar atributos frecuentes.</p>');
+                        $container.append($('<p>', {
+                            'class': 'description',
+                            text: 'No pudimos cargar las características frecuentes.'
+                        }));
                         return;
                     }
 
                     const attrs = response.data.attributes || [];
-                    let html    = '';
-                    
-                    if (attrs.length === 0) {
-                        html = '<p class="description">' + (polycorAdminData.noFrequentAttrs || 'No hay atributos frecuentes.') + '</p>';
-                    } else {
-                        attrs.forEach(function(attr) {
-                            const slug = attr.slug;
-                            const name = attr.name;
-                            const cnt  = attr.count;
 
-                            html +=
-                                '<div class="polycor-attr-item polycor-frequent-item" ' +
-                                     'data-attr-slug="' + slug + '" ' +
-                                     'data-attr-name="' + name.toLowerCase() + '" ' +
-                                     'style="padding: 8px; border-bottom: 1px solid #e0e0e0; cursor: pointer;">' +
-                                    '<div style="font-weight: 600;">' + name + '</div>' +
-                                    '<div style="font-size: 11px; color: #666;">(' + cnt + ' productos)</div>' +
-                                '</div>';
-                        });
+                    if (attrs.length === 0) {
+                        $container.append($('<p>', {
+                            'class': 'description',
+                            text: polycorAdminData.noFrequentAttrs || 'No hay características frecuentes para esta categoría.'
+                        }));
+                        return;
                     }
-                    
-                    $container.html(html);
+
+                    attrs.forEach(function(attr) {
+                        const name = String(attr.name || '');
+                        const slug = String(attr.slug || '');
+                        const count = Number(attr.count) || 0;
+
+                        const $item = $('<button>', {
+                            type: 'button',
+                            'class': 'polycor-attr-item polycor-frequent-item'
+                        }).attr({
+                            'data-attr-slug': slug,
+                            'data-attr-name': name.toLowerCase()
+                        });
+
+                        $('<span>', {
+                            'class': 'polycor-attr-name'
+                        }).text(name).appendTo($item);
+
+                        $('<span>', {
+                            'class': 'polycor-attr-count',
+                            text: '(' + count + ' productos)'
+                        }).appendTo($item);
+
+                        $container.append($item);
+                    });
                 },
                 error: function() {
-                    $container.html('<p class="description" style="color:#d63638;">Error al cargar atributos frecuentes.</p>');
+                    $container.empty().append($('<p>', {
+                        'class': 'description',
+                        text: 'No pudimos cargar las características frecuentes.'
+                    }));
                 }
             });
         },
+
         
-        /* ============================================================
-         * Tabs
-         * ============================================================ */
         setupTabs: function() {
             $('.nav-tab').on('click', function(e) {
                 e.preventDefault();
