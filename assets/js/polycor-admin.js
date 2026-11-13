@@ -285,7 +285,7 @@
                     if (attrs.length === 0) {
                         $container.append($('<p>', {
                             'class': 'description',
-                            text: polycorAdminData.noFrequentAttrs || 'No hay características frecuentes para esta categoría.'
+                            text: polycorAdminData.noFrequentAttrs || 'No encontramos valores de características para esta categoría.'
                         }));
                         return;
                     }
@@ -309,7 +309,7 @@
 
                         $('<span>', {
                             'class': 'polycor-attr-count',
-                            text: '(' + count + ' productos)'
+                            text: '(' + count + ' valores)'
                         }).appendTo($item);
 
                         $container.append($item);
