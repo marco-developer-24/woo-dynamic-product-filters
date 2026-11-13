@@ -85,7 +85,7 @@ Answer, immediately:
 - Category name
 - Number of selected characteristics
 - Configuration status, only if status has a real and well-defined meaning
-- Actions: **Editar**, **Copiar**, **Eliminar**
+- Actions: **Editar**, **Eliminar**\n- Add **Copiar** only after the copy operation is implemented and tested.
 
 Do not add dashboard metrics such as total configurations, total attributes, or category counts unless they are derived from real data and help users make a decision.
 
@@ -177,7 +177,7 @@ Success message: **La configuración se guardó correctamente.**
 
 Failure message: **No pudimos guardar los cambios. Revisá tu conexión e intentá nuevamente.** If the actual error provides a safe, actionable explanation, show it without exposing sensitive internals.
 
-If saving fails, preserve the user's selections and order.
+If saving fails, preserve the user's selections and order.\n\n**Important current behavior:** the existing save path replaces the complete set of configured characteristics for that category. The interface must warn users that saving changes replaces the previous selection, not appends to it. Do not introduce autosave or partial-save language unless the backend contract changes.
 
 If there are unsaved changes and the user attempts to leave, warn them before discarding those changes.
 
@@ -202,7 +202,7 @@ The exact overwrite/merge behavior must follow the backend contract. UX must not
 
 Use **Eliminar configuración**.
 
-Confirmation must identify the category and explain the consequence:
+Confirmation must identify the category and explain the consequence. The inspected delete path removes rows from the plugin's mapping table for the selected category; it does not call WooCommerce product or attribute deletion APIs. The confirmation can therefore explain that it removes this plugin's filter configuration, not products or WooCommerce attributes:
 
 **¿Eliminar los filtros de [category]?**
 
@@ -223,7 +223,7 @@ The Help section should answer:
 - Where do I place the provided shortcode or integration snippet?
 - How can I verify that filters are visible?
 
-If a shortcode is required, label it as a copyable code snippet and explain where it goes. Do not assume the store manager knows what a shortcode is.
+The inspected renderer registers three shortcodes: `[polycor_filter_groups]`, `[polycor_active_filters]`, and `[polycor_dynamic_chips]`. The main filter group shortcode accepts `category_id`, `layout`, `show_count`, and `style` attributes. The Help content must explain which shortcode is appropriate for the intended placement and must not imply that all three are interchangeable.\n\nIf a shortcode is required, label it as a copyable code snippet and explain where it goes. Do not assume the store manager knows what a shortcode is.
 
 Example wording:
 
