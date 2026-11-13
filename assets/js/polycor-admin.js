@@ -232,21 +232,33 @@
         
         /* ============================================================
          * Atributos frecuentes por categoría
-         * (solo se usa en "Nuevo Mapeo")
+         * (Nuevo + Editar)
          * ============================================================ */
         setupCategoryPreview: function() {
             const self = this;
+            const $categoryField = $('form.polycor-mapping-form [name="category_id"]');
 
-            $('#category_id').on('change', function() {
-                const categoryId = $(this).val();
+            if ($categoryField.is('select')) {
+                $categoryField.on('change', function() {
+                    const categoryId = $(this).val();
 
-                if (!categoryId) {
-                    $('#polycor-frequent-attrs-list').prop('hidden', true);
-                    return;
-                }
+                    if (!categoryId) {
+                        $('#polycor-frequent-attrs-list').prop('hidden', true);
+                        return;
+                    }
 
+                    self.loadFrequentAttributes(categoryId);
+                });
+
+                return;
+            }
+
+            // En edición la categoría es fija y llega en un input hidden.
+            const categoryId = $categoryField.val();
+
+            if (categoryId) {
                 self.loadFrequentAttributes(categoryId);
-            });
+            }
         },
 
         
