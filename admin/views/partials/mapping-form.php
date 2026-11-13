@@ -71,7 +71,7 @@ $selected_attributes = isset($selected_attributes) && is_array($selected_attribu
         <?php else: ?>
             <div class="polycor-attributes-container">
                 <section class="polycor-available-attrs" aria-labelledby="polycor-available-heading">
-                    <h4 id="polycor-available-heading"><?php esc_html_e('Características disponibles', 'polycor-filters'); ?></h4>
+                    <h3 id="polycor-available-heading"><?php esc_html_e('Características disponibles', 'polycor-filters'); ?></h3>
 
                     <div class="polycor-search-wrapper">
                         <label class="screen-reader-text" for="polycor-attr-search"><?php esc_html_e('Buscar características', 'polycor-filters'); ?></label>
@@ -100,10 +100,10 @@ $selected_attributes = isset($selected_attributes) && is_array($selected_attribu
                 </section>
 
                 <section class="polycor-selected-attrs" aria-labelledby="polycor-selected-heading">
-                    <h4 id="polycor-selected-heading">
+                    <h3 id="polycor-selected-heading">
                         <?php esc_html_e('Características seleccionadas', 'polycor-filters'); ?>
                         <span id="polycor-selected-count">(<?php echo esc_html(count($selected_attributes)); ?>)</span>
-                    </h4>
+                    </h3>
 
                     <div id="polycor-selected-list" class="polycor-selected-list" aria-live="polite">
                         <?php if (empty($selected_attributes)): ?>
