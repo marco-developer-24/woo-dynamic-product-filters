@@ -51,6 +51,10 @@ $selected_attributes = isset($selected_attributes) && is_array($selected_attribu
         </div>
     <?php endif; ?>
 
+    <div class="notice notice-warning inline polycor-save-warning">
+        <p><?php esc_html_e('Al guardar, esta selección reemplaza la configuración completa de filtros de la categoría. No se agregan características a la selección anterior.', 'polycor-filters'); ?></p>
+    </div>
+
     <div class="polycor-form-attributes">
         <h3><?php esc_html_e('¿Qué características querés que tus clientes puedan filtrar?', 'polycor-filters'); ?></h3>
         <p class="description"><?php esc_html_e('Por ejemplo: marca, procesador, memoria RAM o color. Elegí las características y organizalas en el orden en que querés mostrarlas.', 'polycor-filters'); ?></p>
