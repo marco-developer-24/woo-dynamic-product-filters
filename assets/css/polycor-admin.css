@@ -577,6 +577,51 @@
     border-radius: 8px !important;
 }
 
+.wrap.polycor-admin-wrap .polycor-available-list .polycor-attr-item {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 10px 12px;
+    border: 0;
+    border-bottom: 1px solid var(--polycor-border);
+    background: #fff;
+    color: var(--polycor-ink);
+    text-align: left;
+    cursor: pointer;
+}
+
+.wrap.polycor-admin-wrap .polycor-attr-item:focus-visible {
+    outline: 2px solid var(--polycor-accent);
+    outline-offset: -2px;
+}
+
+.wrap.polycor-admin-wrap .polycor-attr-item .polycor-attr-slug,
+.wrap.polycor-admin-wrap .polycor-attr-item .polycor-attr-count {
+    color: var(--polycor-muted);
+    font-size: 12px;
+}
+
+.wrap.polycor-admin-wrap .polycor-selected-name {
+    flex: 1;
+    font-weight: 600;
+}
+
+.wrap.polycor-admin-wrap .polycor-form-context,
+.wrap.polycor-admin-wrap .polycor-form-attributes {
+    margin-bottom: 24px;
+}
+
+.wrap.polycor-admin-wrap .polycor-form-context h3,
+.wrap.polycor-admin-wrap .polycor-form-attributes h3 {
+    margin-bottom: 8px;
+}
+
+.wrap.polycor-admin-wrap .polycor-frequent-attrs-list[hidden] {
+    display: none;
+}
+
 .wrap.polycor-admin-wrap .polycor-attr-item:hover {
     background: #edf4ff !important;
     transform: none;
