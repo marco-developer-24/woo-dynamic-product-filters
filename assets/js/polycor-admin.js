@@ -490,30 +490,18 @@
                 }
             });
             
-            // Validar formulario de clonación
-            $('form.polycor-clone-form').on('submit', function(e) {
-                const sourceId = $('#source_category').val();
-                const targetId = $('#target_category').val();
-                
-                if (!sourceId || !targetId) {
-                    e.preventDefault();
-                    alert('Debes seleccionar ambas categorías');
-                    return false;
-                }
-                
-                if (sourceId === targetId) {
-                    e.preventDefault();
-                    alert('Las categorías deben ser diferentes');
-                    return false;
-                }
-            });
         },
         
         /**
          * Mostrar notificación
          */
         showNotice: function(type, message) {
-            const $notice = $('<div class="notice notice-' + type + ' is-dismissible"><p>' + message + '</p></div>');
+            const allowedTypes = ['success', 'error', 'warning', 'info'];
+            const noticeType = allowedTypes.includes(type) ? type : 'info';
+            const $notice = $('<div>', {
+                'class': 'notice notice-' + noticeType + ' is-dismissible'
+            });
+            $('<p>').text(message).appendTo($notice);
             $('.polycor-admin-wrap h1').after($notice);
             
             // Auto-cerrar después de 3 segundos
