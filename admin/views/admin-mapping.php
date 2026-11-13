@@ -37,7 +37,6 @@ if ($notices) {
     <h2 class="nav-tab-wrapper">
         <a href="#tab-mappings" class="nav-tab nav-tab-active"><?php _e('Mapeos Actuales', 'polycor-filters'); ?></a>
         <a href="#tab-new-mapping" class="nav-tab"><?php _e('Nuevo Mapeo', 'polycor-filters'); ?></a>
-        <a href="#tab-clone" class="nav-tab"><?php _e('Clonar Mapeo', 'polycor-filters'); ?></a>
         <a href="#tab-shortcode" class="nav-tab"><?php _e('Uso del Shortcode', 'polycor-filters'); ?></a>
     </h2>
     
@@ -123,97 +122,26 @@ if ($notices) {
         </div>
     </div>
 
-    <!-- Tab: Clonar Mapeo -->
-    <div id="tab-clone" class="polycor-tab-content" style="display:none;">
-        <div class="polycor-admin-section">
-            <h2><?php _e('Clonar Mapeo Existente', 'polycor-filters'); ?></h2>
-            
-            <form method="post" class="polycor-clone-form">
-                <?php wp_nonce_field('polycor_admin_action', 'polycor_nonce'); ?>
-                <input type="hidden" name="polycor_action" value="clone_mapping">
-                
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="source_category"><?php _e('Categoría Origen', 'polycor-filters'); ?></label>
-                        </th>
-                        <td>
-                            <select name="source_category" id="source_category" class="regular-text" required>
-                                <option value=""><?php _e('Selecciona...', 'polycor-filters'); ?></option>
-                                <?php foreach ($mappings_summary as $cat_id => $data): ?>
-                                    <option value="<?php echo esc_attr($cat_id); ?>">
-                                        <?php echo esc_html($data['category']['name']); ?> (<?php echo esc_html($data['count']); ?> atributos)
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="target_category"><?php _e('Categoría Destino', 'polycor-filters'); ?></label>
-                        </th>
-                        <td>
-                            <select name="target_category" id="target_category" class="regular-text" required>
-                                <option value=""><?php _e('Selecciona...', 'polycor-filters'); ?></option>
-                                <?php foreach ($categories as $category): ?>
-                                    <option value="<?php echo esc_attr($category->term_id); ?>">
-                                        <?php echo esc_html($category->name); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <p class="description">
-                                <?php _e('Los mapeos existentes en la categoría destino serán reemplazados', 'polycor-filters'); ?>
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-                
-                <p class="submit">
-                    <button type="submit" class="button button-primary button-large">
-                        <?php _e('Clonar Mapeo', 'polycor-filters'); ?>
-                    </button>
-                </p>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Tab: Shortcode -->
     <div id="tab-shortcode" class="polycor-tab-content" style="display:none;">
         <div class="polycor-admin-section">
-            <h2><?php _e('Uso del Shortcode', 'polycor-filters'); ?></h2>
-            
-            <div class="polycor-shortcode-info">
-                <h3><?php _e('Shortcode Básico', 'polycor-filters'); ?></h3>
-                <code class="polycor-code-block">[polycor_filters]</code>
-                <p class="description">
-                    <?php _e('Detecta automáticamente la categoría actual y muestra los filtros configurados.', 'polycor-filters'); ?>
-                </p>
-                
-                <h3><?php _e('Shortcode con Categoría Específica', 'polycor-filters'); ?></h3>
-                <code class="polycor-code-block">[polycor_filters category_id="23"]</code>
-                <p class="description">
-                    <?php _e('Muestra filtros para una categoría específica (reemplaza 23 con el ID de tu categoría).', 'polycor-filters'); ?>
-                </p>
-                
-                <h3><?php _e('Parámetros Disponibles', 'polycor-filters'); ?></h3>
-                <ul class="polycor-param-list">
-                    <li>
-                        <strong>category_id</strong>: <?php _e('ID de categoría (opcional, detecta automática)', 'polycor-filters'); ?>
-                    </li>
-                    <li>
-                        <strong>layout</strong>: <?php _e('"vertical" o "horizontal" (por defecto: vertical)', 'polycor-filters'); ?>
-                    </li>
-                    <li>
-                        <strong>show_count</strong>: <?php _e('"yes" o "no" para mostrar conteo de productos (por defecto: yes)', 'polycor-filters'); ?>
-                    </li>
-                    <li>
-                        <strong>style</strong>: <?php _e('"checkboxes" o "buttons" (por defecto: checkboxes)', 'polycor-filters'); ?>
-                    </li>
-                </ul>
-                
-                <h3><?php _e('Ejemplo Completo', 'polycor-filters'); ?></h3>
-                <code class="polycor-code-block">[polycor_filters category_id="23" layout="horizontal" show_count="no" style="buttons"]</code>
-            </div>
+            <h2><?php esc_html_e('Cómo mostrar los filtros en tu tienda', 'polycor-filters'); ?></h2>
+            <p class="description"><?php esc_html_e('Cada código cumple una función distinta. Elegí el que corresponda al lugar donde querés mostrar el contenido.', 'polycor-filters'); ?></p>
+
+            <h3><?php esc_html_e('Filtros de una categoría', 'polycor-filters'); ?></h3>
+            <code class="polycor-code-block">[polycor_filter_groups]</code>
+            <p class="description"><?php esc_html_e('Muestra los grupos de filtros de la categoría actual. También podés indicar una categoría concreta:', 'polycor-filters'); ?></p>
+            <code class="polycor-code-block">[polycor_filter_groups category_id="23"]</code>
+            <p class="description"><?php esc_html_e('Reemplazá 23 por el ID de la categoría. Parámetros opcionales: layout (vertical u horizontal), show_count (yes o no) y style (checkboxes o buttons).', 'polycor-filters'); ?></p>
+
+            <h3><?php esc_html_e('Filtros activos', 'polycor-filters'); ?></h3>
+            <code class="polycor-code-block">[polycor_active_filters]</code>
+            <p class="description"><?php esc_html_e('Muestra los filtros que el cliente ya seleccionó en la URL actual.', 'polycor-filters'); ?></p>
+
+            <h3><?php esc_html_e('Características del producto', 'polycor-filters'); ?></h3>
+            <code class="polycor-code-block">[polycor_dynamic_chips]</code>
+            <p class="description"><?php esc_html_e('Muestra características configuradas como etiquetas en la página de producto.', 'polycor-filters'); ?></p>
+
+            <p class="description"><?php esc_html_e('Copiá el código correspondiente y pegalo en el bloque de shortcode o área de contenido donde quieras mostrarlo. Después guardá la página y comprobá el resultado en tu tienda.', 'polycor-filters'); ?></p>
         </div>
     </div>
 </div>
