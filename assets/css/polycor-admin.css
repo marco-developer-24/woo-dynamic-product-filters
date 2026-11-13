@@ -592,6 +592,13 @@
     cursor: pointer;
 }
 
+.wrap.polycor-admin-wrap .polycor-attributes-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
 .wrap.polycor-admin-wrap .polycor-available-list {
     max-height: 400px;
     overflow-y: auto;
