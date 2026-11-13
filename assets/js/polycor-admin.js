@@ -204,7 +204,18 @@
             $('#polycor-selected-count').text('(' + count + ')');
             
             if (count === 0) {
-                $('.polycor-empty-message').show();
+                let $empty = $('#polycor-selected-list .polycor-empty-message');
+
+                if (!$empty.length) {
+                    $empty = $('<p>', {
+                        'class': 'polycor-empty-message',
+                        text: 'Elegí características de la lista para agregarlas acá.'
+                    }).prependTo('#polycor-selected-list');
+                }
+
+                $empty.show();
+            } else {
+                $('#polycor-selected-list .polycor-empty-message').remove();
             }
         },
         
