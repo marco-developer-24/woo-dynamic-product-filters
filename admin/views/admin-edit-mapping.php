@@ -10,6 +10,19 @@ if (!defined('ABSPATH')) {
 }
 
 $is_edit = true;
+
+// Mostrar notificaciones después de una operación de guardado.
+$notices = get_transient('polycor_admin_notices');
+if ($notices) {
+    delete_transient('polycor_admin_notices');
+    foreach ($notices as $notice) {
+        printf(
+            '<div class="notice notice-%s is-dismissible"><p>%s</p></div>',
+            esc_attr($notice['type']),
+            esc_html($notice['message'])
+        );
+    }
+}
 ?>
 <div class="wrap polycor-admin-wrap">
     <h1>
