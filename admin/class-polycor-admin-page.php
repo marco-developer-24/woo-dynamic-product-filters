@@ -93,9 +93,19 @@ class PolyCor_Admin_Page {
             ? $failed_submission['attributes']
             : [];
 
-        $selected_attributes = array_values(array_filter($attributes, function ($attribute) use ($failed_slugs) {
-            return in_array($attribute['slug'] ?? '', $failed_slugs, true);
-        }));
+        $attributes_by_slug = [];
+        foreach ($attributes as $attribute) {
+            if (!empty($attribute['slug'])) {
+                $attributes_by_slug[$attribute['slug']] = $attribute;
+            }
+        }
+
+        $selected_attributes = [];
+        foreach ($failed_slugs as $slug) {
+            if (isset($attributes_by_slug[$slug])) {
+                $selected_attributes[] = $attributes_by_slug[$slug];
+            }
+        }
     }
 
     include POLYCOR_PLUGIN_DIR . 'admin/views/admin-edit-mapping.php';
