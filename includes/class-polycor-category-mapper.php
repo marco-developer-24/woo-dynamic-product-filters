@@ -53,28 +53,39 @@ class PolyCor_Category_Mapper {
      */
     public function assign_attributes_to_category($category_id, $attributes) {
 
-        $this->db->delete_mappings_by_category($category_id);
+        $category_id = absint($category_id);
 
-        $success = true;
+        if (!$category_id || !is_array($attributes) || empty($attributes)) {
+            return false;
+        }
+
+        $mappings = [];
+        $slugs = array_unique(array_map('sanitize_title', $attributes));
         $order = 0;
 
-        foreach ($attributes as $slug) {
+        foreach ($slugs as $slug) {
+            if ($slug === '') {
+                return false;
+            }
 
-            $attribute = wc_get_attribute(wc_attribute_taxonomy_id_by_name($slug));
-            if (!$attribute) continue;
+            $attribute_id = wc_attribute_taxonomy_id_by_name($slug);
+            $attribute = $attribute_id ? wc_get_attribute($attribute_id) : false;
 
-            $result = $this->db->insert_mapping(
-                $category_id,
-                $attribute->id,
-                $slug,
-                $order
-            );
+            // Rechazar el conjunto completo antes de modificar los datos existentes.
+            if (!$attribute) {
+                return false;
+            }
 
-            if (!$result) $success = false;
+            $mappings[] = [
+                'attribute_id'   => $attribute->id,
+                'attribute_slug' => $slug,
+                'display_order'  => $order,
+            ];
+
             $order++;
         }
 
-        return $success;
+        return $this->db->replace_mappings_for_category($category_id, $mappings);
     }
 
     /**

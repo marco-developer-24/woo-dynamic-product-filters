@@ -79,6 +79,35 @@ class PolyCor_Admin_Page {
     $attributes = $this->attribute_manager->get_all_attributes();
     if (!is_array($attributes)) $attributes = [];
 
+    // Si el guardado anterior falló, recuperar la selección enviada en lugar de
+    // reemplazarla silenciosamente por los datos persistidos.
+    $failed_submission_key = 'polycor_save_error_' . get_current_user_id();
+    $failed_submission = get_transient($failed_submission_key);
+
+    if (
+        is_array($failed_submission) &&
+        absint($failed_submission['category_id'] ?? 0) === $category_id
+    ) {
+        delete_transient($failed_submission_key);
+        $failed_slugs = isset($failed_submission['attributes']) && is_array($failed_submission['attributes'])
+            ? $failed_submission['attributes']
+            : [];
+
+        $attributes_by_slug = [];
+        foreach ($attributes as $attribute) {
+            if (!empty($attribute['slug'])) {
+                $attributes_by_slug[$attribute['slug']] = $attribute;
+            }
+        }
+
+        $selected_attributes = [];
+        foreach ($failed_slugs as $slug) {
+            if (isset($attributes_by_slug[$slug])) {
+                $selected_attributes[] = $attributes_by_slug[$slug];
+            }
+        }
+    }
+
     include POLYCOR_PLUGIN_DIR . 'admin/views/admin-edit-mapping.php';
     return;
 }
@@ -116,36 +145,90 @@ class PolyCor_Admin_Page {
             case 'delete_mapping':
                 $this->process_delete_mapping();
                 break;
-            case 'clone_mapping':
-                $this->process_clone_mapping();
-                break;
         }
     }
 
     private function process_save_mapping() {
 
         $category_id = isset($_POST['category_id']) ? absint($_POST['category_id']) : 0;
-        $attributes  = isset($_POST['attributes']) ? $_POST['attributes'] : [];
+        $raw_attributes = isset($_POST['attributes']) && is_array($_POST['attributes'])
+            ? wp_unslash($_POST['attributes'])
+            : [];
+
+        $clean = [];
+        foreach ($raw_attributes as $attribute) {
+            if (!is_scalar($attribute)) {
+                continue;
+            }
+
+            $slug = sanitize_text_field((string) $attribute);
+            if ($slug !== '') {
+                $clean[] = $slug;
+            }
+        }
+        $clean = array_values(array_unique($clean));
 
         if (!$category_id) {
             $this->add_admin_notice('error', __('Debes seleccionar una categoría', 'polycor-filters'));
-            return;
+            wp_safe_redirect(admin_url('admin.php?page=polycor-filters'));
+            exit;
         }
 
-        if (empty($attributes)) {
-            $this->add_admin_notice('error', __('Debes seleccionar al menos un atributo', 'polycor-filters'));
-            return;
+        if (empty($clean)) {
+            $this->preserve_failed_submission($category_id, $clean);
+            $this->add_admin_notice('error', __('Debes seleccionar al menos una característica', 'polycor-filters'));
+            $this->redirect_to_edit_form($category_id);
         }
-
-        $clean = array_map('sanitize_text_field', $attributes);
 
         $result = $this->category_mapper->assign_attributes_to_category($category_id, $clean);
 
         if ($result) {
-            $this->add_admin_notice('success', __('Mapeo guardado correctamente', 'polycor-filters'));
-        } else {
-            $this->add_admin_notice('error', __('Error al guardar el mapeo', 'polycor-filters'));
+            $this->add_admin_notice('success', __('La configuración se guardó correctamente', 'polycor-filters'));
+            wp_safe_redirect(admin_url('admin.php?page=polycor-filters'));
+            exit;
         }
+
+        $this->preserve_failed_submission($category_id, $clean);
+        $this->add_admin_notice('error', __('No pudimos guardar la configuración. Tus cambios se conservaron en el formulario para que puedas volver a intentarlo.', 'polycor-filters'));
+        $this->redirect_to_edit_form($category_id);
+    }
+
+    /**
+     * Conservar temporalmente la selección enviada cuando falla el guardado.
+     */
+    private function preserve_failed_submission($category_id, $attributes) {
+        set_transient(
+            'polycor_save_error_' . get_current_user_id(),
+            [
+                'category_id' => absint($category_id),
+                'attributes'  => array_values(array_unique(array_map('sanitize_title', $attributes))),
+            ],
+            5 * MINUTE_IN_SECONDS
+        );
+    }
+
+    /**
+     * Redirigir a edición para evitar el reenvío del POST y recuperar el formulario.
+     */
+    private function redirect_to_edit_form($category_id) {
+        $category = $this->category_mapper->get_category_info($category_id);
+
+        if (!$category) {
+            wp_safe_redirect(admin_url('admin.php?page=polycor-filters'));
+            exit;
+        }
+
+        wp_safe_redirect(
+            add_query_arg(
+                [
+                    'page'        => 'polycor-filters',
+                    'action'      => 'edit',
+                    'category_id' => absint($category_id),
+                ],
+                admin_url('admin.php')
+            )
+        );
+        exit;
     }
 
     private function process_delete_mapping() {
@@ -163,30 +246,6 @@ class PolyCor_Admin_Page {
             $this->add_admin_notice('success', __('Mapeo eliminado correctamente', 'polycor-filters'));
         } else {
             $this->add_admin_notice('error', __('Error al eliminar el mapeo', 'polycor-filters'));
-        }
-    }
-
-    private function process_clone_mapping() {
-
-        $source = isset($_POST['source_category']) ? absint($_POST['source_category']) : 0;
-        $target = isset($_POST['target_category']) ? absint($_POST['target_category']) : 0;
-
-        if (!$source || !$target) {
-            $this->add_admin_notice('error', __('Selecciona categorías válidas', 'polycor-filters'));
-            return;
-        }
-
-        if ($source === $target) {
-            $this->add_admin_notice('error', __('Las categorías deben ser diferentes', 'polycor-filters'));
-            return;
-        }
-
-        $result = $this->category_mapper->clone_mappings($source, $target);
-
-        if ($result) {
-            $this->add_admin_notice('success', __('Mapeo clonado correctamente', 'polycor-filters'));
-        } else {
-            $this->add_admin_notice('error', __('Error al clonar el mapeo', 'polycor-filters'));
         }
     }
 
