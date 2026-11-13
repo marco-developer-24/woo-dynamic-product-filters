@@ -80,7 +80,7 @@ $selected_attributes = isset($selected_attributes) && is_array($selected_attribu
                     </div>
 
                     <div id="polycor-frequent-attrs-list" class="polycor-frequent-attrs-list" hidden>
-                        <strong><?php esc_html_e('Más usadas en esta categoría', 'polycor-filters'); ?></strong>
+                        <strong><?php esc_html_e('Con valores en esta categoría', 'polycor-filters'); ?></strong>
                         <div class="polycor-frequent-items"></div>
                     </div>
 
