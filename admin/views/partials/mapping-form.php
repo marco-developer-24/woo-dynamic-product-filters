@@ -93,7 +93,6 @@ $selected_attributes = isset($selected_attributes) && is_array($selected_attribu
                                 data-attr-name="<?php echo esc_attr(strtolower($attr['name'])); ?>"
                             >
                                 <span class="polycor-attr-name"><?php echo esc_html($attr['name']); ?></span>
-                                <span class="polycor-attr-slug"><?php echo esc_html($attr['slug']); ?></span>
                             </button>
                         <?php endforeach; ?>
                     </div>
